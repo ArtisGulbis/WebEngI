@@ -1,0 +1,8 @@
+.image {
+    padding: 0.4em;
+    border: 1px solid;
+    border-radius: 0.4em;
+    width: 1em;
+    height: auto;
+    align-self: center;
+}

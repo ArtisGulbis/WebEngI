@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>Blogger</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js"></script>
+    <script defer src="./js/login.js"></script>
+    <script defer src="./js/model.js"></script>
+    <script defer src="./js/presenter.js"></script>
+    <script defer src="./js/router.js"></script>
+    <script defer src="./js/view.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Blogger's Blog (Copyright: Manuel & Artis)</h1>
+        <div id="logged_in_user"></div>
+        <button id="sign-in-or-out-button">Anmelden</button>
+        <nav id="blog_nav">
+
+        </nav>
+        <div id="name_of_selected">
+
+        </div>
+        <hr>
+    </header>
+
+    <main id="main_content">
+    </main>
+
+
+    <div id="templates" hidden>
+
+        <div id="list_of_blogs">
+            <ul>
+                <li data-path="/detail/%id%">
+                    %name%(%amount%)
+                </li>
+            </ul>
+        </div>
+
+        <p id="user">
+            %displayName%
+        </p>
+
+
+
+
+        <div id="blog_info">
+            <h4>%name%</h4>
+            <p>Anzahl Posts: %amount%</p>
+            <p>Hochgeladen am: %upload_date%</p>
+            <p>Zuletzt geändert am: %last_changed%</p>
+        </div>
+
+        <div id="post_overview">
+            <ul>
+                <li data-path="/post/%blogID%/%id%/">
+                    <article>
+                        <header>
+                            <h2>%name%</h2>
+                            <p>Hochgeladen am: %upload_date%</p>
+                            <p>Zuletzt geändert am: %last_changed%</p>
+                            <p>Anzahl der Kommentare: %comment_count%</p>
+                        </header>
+                        <footer></footer>
+                    </article>
+                </li>
+            </ul>
+        </div>
+
+        <div id="post_detail">
+            <article>
+                <header>
+                    <h2>%name%</h2>
+                    <p>Hochgeladen am: %upload_date%</p>
+                    <p>Zuletzt geändert am: %last_changed%</p>
+                    <!-- hier kommt nav-->
+                </header>
+                <section>
+                    <p>%content%</p>
+                </section>
+                <footer></footer>
+            </article>
+        </div>
+
+        <div id="comment">
+            <ul>
+                <li>
+                    <article>
+
+                        <head>
+                            <p>%author%</p>
+                            <p>%upload_date%</p>
+                            <p>%last_changed%</p>
+                        </head>
+                        <section>
+                            <p>%content%</p>
+                        </section>
+                        <footer>
+                        </footer>
+                    </article>
+                </li>
+            </ul>
+        </div>
+
+        <ul id="buttons">
+            <li data-action="delete" id="%id%">
+                <button type="button">Löschen</button>
+            </li>
+            <li>
+                <button data-path="/edit/%id%" type="button">Editieren</button>
+            </li>
+        </ul>
+
+    </div>
+
+</body>
+
+</html>
