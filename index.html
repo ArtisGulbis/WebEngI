@@ -28,7 +28,7 @@ and open the template in the editor.
         <nav id="blog_nav">
 
         </nav>
-        <div id="name_of_selected">
+        <div id="name_of_selected_blog">
 
         </div>
         <hr>
@@ -89,7 +89,7 @@ and open the template in the editor.
                 <section>
                     <p>%content%</p>
                 </section>
-                <footer></footer>
+                <div id="comments"></div>
             </article>
         </div>
 
@@ -115,10 +115,10 @@ and open the template in the editor.
 
         <ul id="buttons">
             <li data-action="delete" id="%id%">
-                <button type="button">Löschen</button>
+                <button type="button" class="inline">Löschen</button>
             </li>
             <li>
-                <button data-path="/edit/%id%" type="button">Editieren</button>
+                <button data-path="/edit/%id%" type="button" class="inline">Editieren</button>
             </li>
         </ul>
 

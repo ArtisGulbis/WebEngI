@@ -1,8 +1,72 @@
-.image {
-    padding: 0.4em;
-    border: 1px solid;
-    border-radius: 0.4em;
-    width: 1em;
-    height: auto;
-    align-self: center;
+body {
+  color: #333333;
+  font-family: 'Calibri';
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main_content {
+  flex-grow: 1;
+}
+
+header {
+  margin-top: 16px;
+  margin-bottom: 48px;
+}
+
+#sign-in-or-out-button{
+    margin-left: 0;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid #888888;
+  background: #888888;
+  color: white;
+  padding: 8px;
+  margin-right: 6px;
+}
+
+ul{
+    padding: 0;
+    list-style-type: none;
+}
+li{
+  -webkit-padding-start: 0;
+  padding: 6px 6px 6px 6px;
+  max-width: fit-content;
+  align-content: center;
+}
+
+h2{
+    font-size: 28px;
+}
+
+.blog_nav{
+    text-align: center;
+}
+
+li:hover{
+    background: rgb(212, 212, 192);
+    
+}
+
+footer ul{
+    display: flex;
+    text-align: center;
+}
+
+button:hover{
+    background: #eeeee9;
+    color: black;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 16px;
 }

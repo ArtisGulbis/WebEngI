@@ -19,10 +19,35 @@ const presenter = (function () {
         if (element) main.append(element);
     };
 
+    // function formatDate(date, long) {
+    //     const originalDate = new Date(date);
+    //     const longVer = {
+    //         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'
+    //     }
+    //     const shortVer = { month: 'numeric', day: 'numeric', year: 'numeric' }
+    //     if (long) return originalDate.toLocaleDateString('de-DE', longVer);
+    //     return originalDate.toLocaleDateString('de-DE', shortVer);
+    // }
+
+    function compareDates(blogs) {
+        let previousDate, newestDate, newestBlog
+        for (let i = 0; i < blogs.length; i++) {
+            let currentBlog = blogs[i]
+            let nextBlog = blogs[i + 1]
+            let currentDate = new Date(currentBlog.last_changed)
+            let nextDate = new Date(nextBlog.last_changed)
+            if (currentDate > nextDate) {
+                newestDate = currentDate
+                newestBlog = currentBlog
+            }
+        }
+        return newestBlog
+    }
+
     function initPage2() {
 
         replace('main_content');
-        replace('name_of_selected');
+        replace('name_of_selected_blog');
 
         model.getSelf((result) => {
             const page = userView.render(result);
@@ -30,6 +55,7 @@ const presenter = (function () {
         });
         //BLOG OVERVIEW --> SHOW ALL BLOGS
         model.getAllBlogs((result) => {
+
             const page = blogListView.render(result);
             replace('blog_nav', page);
             const mainNav = document.getElementById('blog_nav');
@@ -37,6 +63,10 @@ const presenter = (function () {
             main.addEventListener('click', handleClicks);
             mainNav.addEventListener("click", handleClicks);
             init = true;
+
+            // const newestBlog = compareDates(result.items)
+            console.log(result);
+
         });
 
     };
@@ -68,66 +98,66 @@ const presenter = (function () {
 
 
     // Initialisiert die allgemeinen Teile der Seite
-    function initPage() {
+    // function initPage() {
 
 
-        console.log("Presenter: Aufruf von initPage()");
+    //     console.log("Presenter: Aufruf von initPage()");
 
-        // Hier werden zunächst nur zu Testzwecken Daten vom Model abgerufen und auf der Konsole ausgegeben 
+    //     // Hier werden zunächst nur zu Testzwecken Daten vom Model abgerufen und auf der Konsole ausgegeben 
 
-        // Nutzer abfragen und Anzeigenamen als owner setzen
-        model.getSelf((result) => {
-            owner = result.displayName;
-            document.getElementById('logged_in_user').innerHTML = owner;
-            console.log(`Presenter: Nutzer*in ${owner} hat sich angemeldet.`);
-        });
-
-
-
-        //----------------------------------------------------------------
-        model.getAllBlogs((blogs) => {
-            console.log("--------------- Alle Blogs --------------- ");
-            if (!blogs)
-                return;
-
-            blogs.forEach(blog => {
-
-                //blog.setFormatDates(true);
-                console.log(blog);
-            });
-            blogId = blogs[0].id
-            model.getAllPostsOfBlog(blogId, (posts) => {
-                console.log("--------------- Alle Posts des ersten Blogs --------------- ");
-                if (!posts)
-                    return;
-                posts.forEach(post => {
-
-                    // post.setFormatDates(true);
-                    console.log(post);
-                });
-                postId = posts[2].id;
-                model.getAllCommentsOfPost(blogId, postId, (comments) => {
-                    console.log("--------------- Alle Comments des zweiten Post --------------- ");
-                    if (!comments)
-                        return;
-                    comments.forEach(comment => {
-
-                        //comment.setFormatDates(false);
-                        console.log(comment);
-                    });
-                });
-            });
-        });
-        //----------------------------------------------------------------
+    //     // Nutzer abfragen und Anzeigenamen als owner setzen
+    //     model.getSelf((result) => {
+    //         owner = result.displayName;
+    //         document.getElementById('logged_in_user').innerHTML = owner;
+    //         console.log(`Presenter: Nutzer*in ${owner} hat sich angemeldet.`);
+    //     });
 
 
 
-        // Das muss später an geeigneter Stelle in Ihren Code hinein.
-        init = true;
-        //Falls auf Startseite, navigieren zu Uebersicht
-        if (window.location.pathname === "/")
-            router.navigateToPage('/blogOverview/' + blogId);
-    }
+    //     //----------------------------------------------------------------
+    //     model.getAllBlogs((blogs) => {
+    //         console.log("--------------- Alle Blogs --------------- ");
+    //         if (!blogs)
+    //             return;
+
+    //         blogs.forEach(blog => {
+
+    //             //blog.setFormatDates(true);
+    //             console.log(blog);
+    //         });
+    //         blogId = blogs[0].id
+    //         model.getAllPostsOfBlog(blogId, (posts) => {
+    //             console.log("--------------- Alle Posts des ersten Blogs --------------- ");
+    //             if (!posts)
+    //                 return;
+    //             posts.forEach(post => {
+
+    //                 // post.setFormatDates(true);
+    //                 console.log(post);
+    //             });
+    //             postId = posts[2].id;
+    //             model.getAllCommentsOfPost(blogId, postId, (comments) => {
+    //                 console.log("--------------- Alle Comments des zweiten Post --------------- ");
+    //                 if (!comments)
+    //                     return;
+    //                 comments.forEach(comment => {
+
+    //                     //comment.setFormatDates(false);
+    //                     console.log(comment);
+    //                 });
+    //             });
+    //         });
+    //     });
+    //     //----------------------------------------------------------------
+
+
+
+    //     // Das muss später an geeigneter Stelle in Ihren Code hinein.
+    //     init = true;
+    //     //Falls auf Startseite, navigieren zu Uebersicht
+    //     if (window.location.pathname === "/")
+    //         router.navigateToPage('/blogOverview/' + blogId);
+    // }
     // Sorgt dafür, dass bei einem nicht-angemeldeten Nutzer nur noch der Name der Anwendung
     // und der Login-Button angezeigt wird.
     function loginPage() {
@@ -135,7 +165,7 @@ const presenter = (function () {
         if (owner !== undefined) console.log(`Presenter: Nutzer*in ${owner} hat sich abgemeldet.`);
         replace('main_content');
         replace('logged_in_user');
-        replace('name_of_selected');
+        replace('name_of_selected_blog');
         replace('blog_nav');
         //replace('content');
         init = false;
@@ -162,6 +192,7 @@ const presenter = (function () {
 
         // Wird vom Router aufgerufen, wenn eine Blog-Übersicht angezeigt werden soll
         showBlogOverview(bid) {
+            if (!init) initPage2()
             console.log(`Aufruf von presenter.showBlogOverview(${bid})`);
             // model.getAllPostsOfBlog(bid, (result) => {
             //     const page = postOverView.render(result);
@@ -169,13 +200,14 @@ const presenter = (function () {
             // });
             model.getBlog(bid, (el) => {
                 const page = blogOverView.render(el);
-                replace('name_of_selected', page);
+                replace('name_of_selected_blog', page);
                 this.showPostsOfBlog(bid);
             });
 
         },
 
         showPostsOfBlog(blogID) {
+            if (!init) initPage2()
             //const blogId = '4365263144152804094';
             model.getAllPostsOfBlog(blogID, (data) => {
                 const page = postOverView.render(data);
@@ -187,19 +219,20 @@ const presenter = (function () {
         },
 
         showCommentsOfPost(blogID, postId) {
+            if (!init) initPage2()
             model.getPost(blogID, postId, (data) => {
                 const page = postDetailView.render(data);
-                replace('name_of_selected', page);
-            });
-            model.getAllCommentsOfPost(blogID, postId, (data) => {
-                const page = commentView.render(data);
                 replace('main_content', page);
-                if (data) {
-                    data.forEach((el) => {
-                        console.log(el);
-                    });
-                }
+                model.getAllCommentsOfPost(blogID, postId, (data) => {
+                    const page = commentView.render(data);
+                    replace('comments', page)
+                    if (data) {
+                        data.forEach((el) => {
+                            console.log(el);
+                        });
+                    }
 
+                });
             });
         },
 
