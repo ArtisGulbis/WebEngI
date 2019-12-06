@@ -147,7 +147,6 @@ const presenter = (function () {
 
     showPostsOfBlog(blogID) {
       if (!init) initPage2()
-      // const blogId = '4365263144152804094';
       model.getAllPostsOfBlog(blogID, (data) => {
         const page = postOverView.render(data)
         replace('main_content', page)

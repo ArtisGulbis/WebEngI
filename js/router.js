@@ -41,7 +41,6 @@ const router = (function () {
   }
 })();
 
-// Selbsaufrufende Funktionsdeklaration: (function name(){..})();
 (function initRouter() {
   // The "Startpage".
   router.addRoute('', function () {

@@ -111,6 +111,7 @@ const model = (function () {
       // Execute the API request.
       request.execute((result) => {
         const blogArray = result.items.map(el => new Blog(el.id, el.name, el.posts.totalItems, el.published, el.updated))
+        console.log(result.items);
         callback(blogArray)
       })
     },
@@ -139,6 +140,7 @@ const model = (function () {
       request.execute((result) => {
         // const postArray = result.items.map(el => new Post(el.id, el.blog.id, el.title, el.published, el.updated, el.replies.totalItems));
         const postArray = result.items.map(el => new Post(el.id, el.blog.id, el.title, el.published, el.updated, el.replies.totalItems, el.content))
+        console.log(result.items);
         callback(postArray)
       })
     },
@@ -167,6 +169,7 @@ const model = (function () {
       request.execute((result) => {
         if (result.items) {
           const commentArray = result.items.map(el => new Comment(el.id, el.blog.id, el.post.id, el.author.displayName, el.published, el.updated, el.content))
+          console.log(result.items);
           callback(commentArray)
         } else {
           callback()
