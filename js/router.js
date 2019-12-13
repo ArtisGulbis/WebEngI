@@ -44,30 +44,40 @@ const router = (function () {
 (function initRouter() {
   // The "Startpage".
   router.addRoute('', function () {
-    presenter.showStartPage()
-  })
+    presenter.showStartPage();
+  });
 
   router.addRoute('detail', function () {
     var id = window.location.pathname.split('/detail/')[1].trim()
-
-    presenter.showBlogOverview(id)
-  })
+    presenter.showBlogOverview(id);
+  });
 
   router.addRoute('post', function () {
-    const url = window.location.pathname.split('/post/')[1].trim()
-    const pid = url.split('/')[1].trim()
-    const bid = url.split('/')[0].trim()
-    presenter.showCommentsOfPost(bid, pid)
-  })
+    const url = window.location.pathname.split('/post/')[1].trim();
+    const pid = url.split('/')[1].trim();
+    const bid = url.split('/')[0].trim();
+    presenter.showCommentsOfPost(bid, pid);
+  });
 
   router.addRoute('delete', function () {
     const url = window.location.pathname
-    console.log(`URL ---> ${url}`)
-  })
+    console.log(`URL ---> ${url}`);
+  });
+
+  router.addRoute('edit', function () {
+    const url = window.location.pathname.split('/edit/')[1].trim();
+    let pid = url.split('/')[1].trim();
+    let bid = url.split('/')[0].trim();
+    if (pid && bid) {
+      pid = pid.trim();
+      bid = bid.trim();
+      presenter.edit(bid, pid);
+    }
+  });
 
   if (window) {
     window.addEventListener('popstate', (event) => {
-      router.handleRouting()
-    })
+      router.handleRouting();
+    });
   }
-})()
+})();

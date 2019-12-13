@@ -117,8 +117,51 @@ and open the template in the editor.
             <li data-action="delete" id="%id%">
                 <button type="button" class="inline">Löschen</button>
             </li>
+            <li data-path="/edit/%blogID%/%id%">
+                <button type="button" class="inline">Editieren</button>
+            </li>
+        </ul>
+
+        <div id="edit">
+            <form method="GET">
+                <ul>
+                    <li>
+                        <label for="blogID"></label>
+                        <input type="text" name="blogID" id="blogID" disabled hidden>
+                    </li>
+                    <li>
+                        <label for="titel">Titel</label>
+                        <input type="text" id="titel" name="titel">
+                    </li>
+                    <li>
+                        <label for="upload_date">Uploaded</label>
+                        <input type="text" name="upload_date" id="upload_date" disabled>
+                    </li>
+                    <li>
+                        <label for="last_changed">Last Changed</label>
+                        <input type="text" name="last_changed" id="last_changed" disabled>
+                    </li>
+                    <li>
+                        <label for="comment_count"></label>
+                        <input type="text" name="comment_count" id="comment_count" disabled hidden>
+                    </li>
+                    <li>
+                        <div contenteditable="true">
+                            <label for=" content">Content</label>
+                            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                        </div>
+                    </li>
+                </ul>
+
+            </form>
+        </div>
+
+        <ul id="form-buttons">
             <li>
-                <button data-path="/edit/%id%" type="button" class="inline">Editieren</button>
+                <button type="button" value="cancel" data-path="/detail">Cancel</button>
+            </li>
+            <li>
+                <button type="submit" value="save" data-path="/detail">Save</button>
             </li>
         </ul>
 

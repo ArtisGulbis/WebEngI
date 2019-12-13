@@ -1,7 +1,7 @@
 body {
   color: #333333;
   font-family: 'Calibri';
-  max-width: 650px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 0 16px;
 
@@ -69,4 +69,8 @@ button:hover{
 h1 {
   font-size: 32px;
   margin-bottom: 16px;
+}
+
+input{
+  width: 100%;
 }

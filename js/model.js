@@ -1,9 +1,4 @@
-/*
- *
- /*
- * Adresse über die man auf die Webschnittstelle meines Blogs zugreifen kann:
- */
-'use strict'
+
 const model = (function () {
   // Private Variablen
   let loggedIn = false

@@ -76,23 +76,26 @@ const presenter = (function () {
 
   function handleClicks(event) {
     let source = null
+
     switch (event.target.tagName) {
       case 'A':
         router.handleNavigationEvent(event)
-        // console.log(event.target.tagName + " was clicked");
         break
       case 'BUTTON':
         source = event.target
       default:
-        source = event.target.closest('LI')
+        source = event.target.closest('LI');
         break
     }
+    console.log(source);
     if (source) {
       const action = source.dataset.action
+      console.log('ACTION ' + action);
       if (action) {
         presenter[action](source.id)
       }
       const path = source.dataset.path
+      console.log('PATH ' + path);
       if (path) {
         router.navigateToPage(path)
       }
@@ -167,10 +170,10 @@ const presenter = (function () {
           if (data) {
             data.forEach((el) => {
               console.log(el)
-            })
+            });
           }
-        })
-      })
+        });
+      });
     },
 
     delete(bid, pid, cid) {
@@ -185,8 +188,13 @@ const presenter = (function () {
       }
     },
 
-    edit() {
-
+    edit(bid, pid) {
+      if (!init) initPage2;
+      model.getPost(bid, pid, (result) => {
+        result.setFormatDates(true);
+        const page = editView.render(result);
+        replace('main_content', page);
+      });
     }
 
   }

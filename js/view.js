@@ -1,7 +1,7 @@
 
 // working
 const blogOverView = {
-  render (data) {
+  render(data) {
     const page = document.getElementById('blog_info').cloneNode(true)
     page.removeAttribute('id')
     data.setFormatDates(true)
@@ -11,7 +11,7 @@ const blogOverView = {
 }
 // working
 const blogListView = {
-  render (data) {
+  render(data) {
     const page = document.getElementById('list_of_blogs').cloneNode(true)
     page.removeAttribute('id')
     const ul = page.querySelector('ul')
@@ -27,7 +27,7 @@ const blogListView = {
 }
 // working
 const userView = {
-  render (data) {
+  render(data) {
     const page = document.getElementById('user').cloneNode(true)
     page.removeAttribute('id')
     helper.setDataInfo(page, data)
@@ -36,14 +36,15 @@ const userView = {
 }
 
 const postOverView = {
-  render (data) {
-    function handleDelete (event) {
+  render(data) {
+    function handleDelete(event) {
       let source
       if (event.target.tagName === 'BUTTON') {
         source = event.target.closest('LI')
         if (source.dataset.action === 'delete') {
           const post = source.parentElement.closest('LI')
           post.remove()
+          console.log('im here delete');
         }
       }
     }
@@ -66,7 +67,7 @@ const postOverView = {
 }
 
 const postDetailView = {
-  render (data) {
+  render(data) {
     const page = document.getElementById('post_detail').cloneNode(true)
     page.removeAttribute('id')
     data.setFormatDates(true)
@@ -77,8 +78,8 @@ const postDetailView = {
 
 const commentView = {
 
-  render (data) {
-    function handleDelete (event) {
+  render(data) {
+    function handleDelete(event) {
       let source
       if (event.target.tagName === 'BUTTON') {
         source = event.target.closest('LI')
@@ -114,8 +115,54 @@ const commentView = {
   }
 }
 
+const editView = {
+
+  render(data) {
+    const handleSave = function (event) {
+      if (event.target.value === 'save') {
+        event.preventDefault();
+        console.log('im here');
+        model.updatePost(form.blogID.value, form.id, form.titel.value, form.content.value);
+
+      }
+    }
+
+    let fillForm = function () {
+      form.blogID.value = data.blogID;
+      form.titel.value = data.name;
+      form.upload_date.value = data.upload_date;
+      form.last_changed.value = data.last_changed;
+      form.content.value = data.content;
+      form.comment_count.value = data.comment_count;
+      form.id = data.id;
+    }
+
+    const edit = (data && data.id) ? true : false;
+    let div = document.getElementById('edit').cloneNode(true);
+    let divUL = div.querySelector('ul');
+    div.removeAttribute('id');
+    let form = div.querySelector('form');
+
+    if (edit) {
+      fillForm();
+      let path = '/detail/' + data.blogID
+      const ul = document.getElementById('form-buttons').cloneNode(true);
+      ul.removeAttribute('id');
+      const ulChildren = ul.children;
+      const array = Array.from(ulChildren);
+      array.forEach((el) => {
+        el.dataset.path = path;
+        divUL.appendChild(el)
+      });
+
+    }
+    div.addEventListener('click', handleSave);
+    return div;
+  }
+}
+
 const helper = {
-  setDataInfo (element, object) {
+  setDataInfo(element, object) {
     let cont = element.innerHTML
     for (const key in object) {
       const rexp = new RegExp('%' + key + '%', 'g')
@@ -124,7 +171,7 @@ const helper = {
     element.innerHTML = cont
   },
 
-  setNavButtons (temp) {
+  setNavButtons(temp) {
     const buttons = document.getElementById('buttons').cloneNode(true)
     buttons.removeAttribute('id')
     const footer = temp.querySelector('footer')
