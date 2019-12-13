@@ -83,6 +83,7 @@ const presenter = (function () {
         break
       case 'BUTTON':
         source = event.target
+        break;
       default:
         source = event.target.closest('LI');
         break

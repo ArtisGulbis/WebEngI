@@ -114,11 +114,11 @@ and open the template in the editor.
         </div>
 
         <ul id="buttons">
-            <li data-action="delete" id="%id%">
-                <button type="button" class="inline">Löschen</button>
+            <li>
+                <button type="button" class="inline" data-action="delete" id="%id%">Löschen</button>
             </li>
-            <li data-path="/edit/%blogID%/%id%">
-                <button type="button" class="inline">Editieren</button>
+            <li>
+                <button type="button" class="inline" data-path="/edit/%blogID%/%id%">Editieren</button>
             </li>
         </ul>
 
@@ -151,19 +151,16 @@ and open the template in the editor.
                             <textarea name="content" id="content" cols="30" rows="10"></textarea>
                         </div>
                     </li>
+                    <li>
+                        <nav>
+                            <button type="button" value="cancel" data-path="/detail">Cancel</button>
+                            <button type="submit" value="save" data-path="/detail">Save</button>
+                        </nav>
+                    </li>
                 </ul>
 
             </form>
         </div>
-
-        <ul id="form-buttons">
-            <li>
-                <button type="button" value="cancel" data-path="/detail">Cancel</button>
-            </li>
-            <li>
-                <button type="submit" value="save" data-path="/detail">Save</button>
-            </li>
-        </ul>
 
     </div>
 

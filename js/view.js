@@ -139,22 +139,16 @@ const editView = {
 
     const edit = (data && data.id) ? true : false;
     let div = document.getElementById('edit').cloneNode(true);
-    let divUL = div.querySelector('ul');
     div.removeAttribute('id');
     let form = div.querySelector('form');
 
     if (edit) {
       fillForm();
       let path = '/detail/' + data.blogID
-      const ul = document.getElementById('form-buttons').cloneNode(true);
-      ul.removeAttribute('id');
-      const ulChildren = ul.children;
-      const array = Array.from(ulChildren);
-      array.forEach((el) => {
+      let buttons = form.querySelectorAll('button');
+      buttons.forEach((el) => {
         el.dataset.path = path;
-        divUL.appendChild(el)
       });
-
     }
     div.addEventListener('click', handleSave);
     return div;
