@@ -1,4 +1,6 @@
 
+
+
 const model = (function () {
   // Private Variablen
   let loggedIn = false
@@ -13,13 +15,13 @@ const model = (function () {
   // long = true: Mittwoch, 24. Oktober 2018, 12:21
 
   function formatDate(date, long) {
-    const originalDate = new Date(date)
+    const originalDate = new Date(date);
     const longVer = {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'
     }
     const shortVer = { month: 'numeric', day: 'numeric', year: 'numeric' }
-    if (long) return originalDate.toLocaleDateString('de-DE', longVer)
-    return originalDate.toLocaleDateString('de-DE', shortVer)
+    if (long) return originalDate.toLocaleDateString('de-DE', longVer);
+    return originalDate.toLocaleDateString('de-DE', shortVer);
   }
 
   // Konstruktoren für Daten-Objekte

@@ -75,6 +75,12 @@ const router = (function () {
     }
   });
 
+  router.addRoute('create', function () {
+    const url = window.location.pathname.split('/create/')[1].trim();
+    let bid = url.split('/')[0];
+    presenter.create(bid);
+  });
+
   if (window) {
     window.addEventListener('popstate', (event) => {
       router.handleRouting();

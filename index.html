@@ -114,41 +114,43 @@ and open the template in the editor.
         </div>
 
         <ul id="buttons">
-            <li>
-                <button type="button" class="inline" data-action="delete" id="%id%">Löschen</button>
+            <li data-action="delete">
+                <button type="button" class="inline" data-action="delete" id="%id%/%blogID%/%postID%">Löschen</button>
             </li>
             <li>
                 <button type="button" class="inline" data-path="/edit/%blogID%/%id%">Editieren</button>
             </li>
         </ul>
 
+        <button type="button" data-action="create" data-path="/create/%blogID%" id="create-button">Add new post</button>
+
         <div id="edit">
-            <form method="GET">
+            <form method="PUT">
                 <ul>
                     <li>
                         <label for="blogID"></label>
-                        <input type="text" name="blogID" id="blogID" disabled hidden>
+                        <input type="text" name="blogID" id="blogID_input" disabled hidden>
                     </li>
                     <li>
                         <label for="titel">Titel</label>
-                        <input type="text" id="titel" name="titel">
+                        <input type="text" id="titel_input" name="titel">
                     </li>
                     <li>
                         <label for="upload_date">Uploaded</label>
-                        <input type="text" name="upload_date" id="upload_date" disabled>
+                        <input type="text" name="upload_date" id="upload_date_input" disabled>
                     </li>
                     <li>
                         <label for="last_changed">Last Changed</label>
-                        <input type="text" name="last_changed" id="last_changed" disabled>
+                        <input type="text" name="last_changed" id="last_changed_input" disabled>
                     </li>
                     <li>
                         <label for="comment_count"></label>
-                        <input type="text" name="comment_count" id="comment_count" disabled hidden>
+                        <input type="text" name="comment_count" id="comment_count_input" disabled hidden>
                     </li>
                     <li>
                         <div contenteditable="true">
                             <label for=" content">Content</label>
-                            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                            <textarea name="content" id="content_input" cols="30" rows="10"></textarea>
                         </div>
                     </li>
                     <li>
@@ -163,27 +165,37 @@ and open the template in the editor.
         </div>
 
         <div id="create">
-            <form action="" method="POST">
+            <form method="POST">
                 <ul>
                     <li>
-                        <label for="titel">Titel</label>
-                        <input type="text" name="titel" id="titel">
+                        <label for="blogID"></label>
+                        <input type="text" name="blogID" id="blogID_post" hidden>
                     </li>
                     <li>
+                        <label for="titel">Titel</label>
+                        <input type="text" name="titel" id="title_post">
+                    </li>
+                    <!-- <li>
                         <label for="upload_date">Upload</label>
-                        <input type="text" name="upload_date" id="upload_date">
+                        <input type="text" name="upload_date" id="upload_date_post">
                     </li>
                     <li>
                         <label for="last_changed">Updated</label>
-                        <input type="text" name="last_changed" id="last_changed">
+                        <input type="text" name="last_changed" id="last_changed_post">
                     </li>
                     <li>
                         <label for="comment_count"></label>
-                        <input type="text" name="comment_count" id="comment_count" hidden>
-                    </li>
+                        <input type="text" name="comment_count" id="comment_count_post" hidden>
+                    </li> -->
                     <li>
                         <label for="content">Content</label>
-                        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                        <textarea name="content" id="content_post" cols="30" rows="10"></textarea>
+                    </li>
+                    <li>
+                        <nav>
+                            <button type="button" value="cancel" data-path="/detail">Cancel</button>
+                            <button type="submit" value="create" data-path="/detail">Create</button>
+                        </nav>
                     </li>
                 </ul>
             </form>

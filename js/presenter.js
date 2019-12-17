@@ -66,12 +66,9 @@ const presenter = (function () {
         model.getAllPostsOfBlog(newestBlog.id, (data) => {
           const page = postOverView.render(data)
           replace('main_content', page)
-          data.forEach((el) => {
-            console.log(el)
-          })
-        })
-      })
-    })
+        });
+      });
+    });
   };
 
   function handleClicks(event) {
@@ -88,15 +85,12 @@ const presenter = (function () {
         source = event.target.closest('LI');
         break
     }
-    console.log(source);
     if (source) {
       const action = source.dataset.action
-      console.log('ACTION ' + action);
       if (action) {
         presenter[action](source.id)
       }
       const path = source.dataset.path
-      console.log('PATH ' + path);
       if (path) {
         router.navigateToPage(path)
       }
@@ -138,14 +132,15 @@ const presenter = (function () {
     showBlogOverview(bid) {
       if (!init) initPage2()
       console.log(`Aufruf von presenter.showBlogOverview(${bid})`)
-      // model.getAllPostsOfBlog(bid, (result) => {
-      //     const page = postOverView.render(result);
-      //     replace('main_content', page);
-      // });
+
       model.getBlog(bid, (el) => {
         const page = blogOverView.render(el)
-        replace('name_of_selected_blog', page)
-        this.showPostsOfBlog(bid)
+        replace('name_of_selected_blog', page);
+        // this.showPostsOfBlog(bid)
+        model.getAllPostsOfBlog(bid, (result) => {
+          const page = postOverView.render(result);
+          replace('main_content', page);
+        });
       })
     },
 
@@ -177,17 +172,17 @@ const presenter = (function () {
       });
     },
 
-    delete(bid, pid, cid) {
-      if (bid && pid) {
-        model.deletePost(bid, pid, () => {
-          console.log(`Post -> ${bid} was deleted!`)
-        })
-      } else if (bid && pid && cid) {
-        model.deleteComment(bid, pid, cid, () => {
-          console.log(`Comment --> ${cid} was deleted!`)
-        })
-      }
-    },
+    // delete(bid, pid, cid) {
+    //   if (bid && pid) {
+    //     model.deletePost(bid, pid, () => {
+    //       console.log(`Post -> ${bid} was deleted!`)
+    //     });
+    //   } else if (bid && pid && cid) {
+    //     model.deleteComment(bid, pid, cid, () => {
+    //       console.log(`Comment --> ${cid} was deleted!`)
+    //     })
+    //   }
+    // },
 
     edit(bid, pid) {
       if (!init) initPage2;
@@ -196,6 +191,34 @@ const presenter = (function () {
         const page = editView.render(result);
         replace('main_content', page);
       });
+    },
+
+    create(bid) {
+      if (!init) initPage2;
+      const page = createView.render(bid);
+      replace('main_content', page);
+    },
+
+    delete(info) {
+      let ids = info.split('/');
+      const filter = ids.filter((el) => typeof parseInt(el) === 'number' && parseInt(el) > 0);
+      let pid, bid, cid;
+
+      if (filter.length === 2) {
+        pid = ids[0];
+        bid = ids[1];
+        model.deletePost(bid, pid, () => {
+          console.log(`Blog ${bid} was deleted!`);
+        });
+      } else if (filter.length === 3) {
+        pid = ids[2];
+        bid = ids[1];
+        cid = ids[0];
+        model.deleteComment(bid, pid, cid, () => {
+          console.log(`Comment ${cid} was deleted`);
+        });
+      }
+
     }
 
   }

@@ -2,11 +2,11 @@
 // working
 const blogOverView = {
   render(data) {
-    const page = document.getElementById('blog_info').cloneNode(true)
-    page.removeAttribute('id')
-    data.setFormatDates(true)
-    helper.setDataInfo(page, data)
-    return page
+    const page = document.getElementById('blog_info').cloneNode(true);
+    page.removeAttribute('id');
+    data.setFormatDates(true);
+    helper.setDataInfo(page, data);
+    return page;
   }
 }
 // working
@@ -37,32 +37,35 @@ const userView = {
 
 const postOverView = {
   render(data) {
+
     function handleDelete(event) {
       let source
       if (event.target.tagName === 'BUTTON') {
         source = event.target.closest('LI')
         if (source.dataset.action === 'delete') {
           const post = source.parentElement.closest('LI')
-          post.remove()
-          console.log('im here delete');
+          post.remove();
         }
       }
     }
 
-    const page = document.getElementById('post_overview').cloneNode(true)
-    page.removeAttribute('id')
-    const ul = page.querySelector('ul')
-    const liTemp = ul.firstElementChild
-    helper.setNavButtons(liTemp)
-    liTemp.remove()
+    const page = document.getElementById('post_overview').cloneNode(true);
+    const button = document.getElementById('create-button').cloneNode(true);
+    button.removeAttribute('id');
+    page.removeAttribute('id');
+    const ul = page.querySelector('ul');
+    const liTemp = ul.firstElementChild;
+    ul.append(button);
+    helper.setNavButtons(liTemp);
+    liTemp.remove();
     data.forEach((el) => {
-      const li = liTemp.cloneNode(true)
-      ul.appendChild(li)
-      el.setFormatDates(false)
-      helper.setDataInfo(ul, el)
+      const li = liTemp.cloneNode(true);
+      ul.appendChild(li);
+      el.setFormatDates(false);
+      helper.setDataInfo(ul, el);
     })
-    page.addEventListener('click', handleDelete)
-    return page
+    page.addEventListener('click', handleDelete);
+    return page;
   }
 }
 
@@ -85,7 +88,7 @@ const commentView = {
         source = event.target.closest('LI')
         if (source.dataset.action === 'delete') {
           const post = source.parentElement.closest('LI')
-          post.remove()
+          post.remove();
         }
       }
     }
@@ -108,7 +111,6 @@ const commentView = {
       li.innerHTML = 'No comments yet'
       ul.appendChild(li)
     }
-    // page.removeAttribute('id');
     helper.setNavButtons(liTemp)
     page.addEventListener('click', handleDelete)
     return page
@@ -118,22 +120,22 @@ const commentView = {
 const editView = {
 
   render(data) {
+
     const handleSave = function (event) {
       if (event.target.value === 'save') {
         event.preventDefault();
-        console.log('im here');
-        model.updatePost(form.blogID.value, form.id, form.titel.value, form.content.value);
+        model.updatePost(form.blogID_input.value, form.id, form.titel_input.value, form.content_input.value);
 
       }
     }
 
     let fillForm = function () {
-      form.blogID.value = data.blogID;
-      form.titel.value = data.name;
-      form.upload_date.value = data.upload_date;
-      form.last_changed.value = data.last_changed;
-      form.content.value = data.content;
-      form.comment_count.value = data.comment_count;
+      form.blogID_input.value = data.blogID;
+      form.titel_input.value = data.name;
+      form.upload_date_input.value = data.upload_date;
+      form.last_changed_input.value = data.last_changed;
+      form.content_input.value = data.content;
+      form.comment_count_input.value = data.comment_count;
       form.id = data.id;
     }
 
@@ -141,7 +143,6 @@ const editView = {
     let div = document.getElementById('edit').cloneNode(true);
     div.removeAttribute('id');
     let form = div.querySelector('form');
-
     if (edit) {
       fillForm();
       let path = '/detail/' + data.blogID
@@ -151,6 +152,33 @@ const editView = {
       });
     }
     div.addEventListener('click', handleSave);
+    return div;
+  }
+}
+
+const createView = {
+  render(bid) {
+
+    const handleCreate = function (event) {
+      if (event.target.value === 'create') {
+        event.preventDefault();
+        model.addNewPost(form.id, form.title_post.value, form.content_post.value);
+      }
+    }
+
+    const edit = (bid) ? true : false;
+    let div = document.getElementById('create').cloneNode(true);
+    div.removeAttribute('id');
+    let form = div.querySelector('form');
+    if (edit) {
+      form.id = bid;
+      let path = '/detail/' + bid
+      let buttons = form.querySelectorAll('button');
+      buttons.forEach((el) => {
+        el.dataset.path = path;
+      });
+    }
+    div.addEventListener('click', handleCreate);
     return div;
   }
 }
