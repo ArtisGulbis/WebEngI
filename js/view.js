@@ -12,26 +12,26 @@ const blogOverView = {
 // working
 const blogListView = {
   render(data) {
-    const page = document.getElementById('list_of_blogs').cloneNode(true)
-    page.removeAttribute('id')
-    const ul = page.querySelector('ul')
-    const liTemp = ul.firstElementChild
-    liTemp.remove()
+    const page = document.getElementById('list_of_blogs').cloneNode(true);
+    page.removeAttribute('id');
+    const ul = page.querySelector('ul');
+    const liTemp = ul.firstElementChild;
+    liTemp.remove();
     data.forEach((el) => {
-      const li = liTemp.cloneNode(true)
-      ul.appendChild(li)
-      helper.setDataInfo(ul, el)
+      const li = liTemp.cloneNode(true);
+      ul.appendChild(li);
+      helper.setDataInfo(ul, el);
     })
-    return page
+    return page;
   }
 }
 // working
 const userView = {
   render(data) {
-    const page = document.getElementById('user').cloneNode(true)
-    page.removeAttribute('id')
-    helper.setDataInfo(page, data)
-    return page
+    const page = document.getElementById('user').cloneNode(true);
+    page.removeAttribute('id');
+    helper.setDataInfo(page, data);
+    return page;
   }
 }
 
@@ -39,11 +39,11 @@ const postOverView = {
   render(data) {
 
     function handleDelete(event) {
-      let source
+      let source;
       if (event.target.tagName === 'BUTTON') {
-        source = event.target.closest('LI')
-        if (source.dataset.action === 'delete') {
-          const post = source.parentElement.closest('LI')
+        source = event.target.closest('LI');
+        if (source && source.dataset.action === 'delete') {
+          const post = source.parentElement.closest('LI');
           post.remove();
         }
       }
@@ -71,11 +71,11 @@ const postOverView = {
 
 const postDetailView = {
   render(data) {
-    const page = document.getElementById('post_detail').cloneNode(true)
-    page.removeAttribute('id')
-    data.setFormatDates(true)
-    helper.setDataInfo(page, data)
-    return page
+    const page = document.getElementById('post_detail').cloneNode(true);
+    page.removeAttribute('id');
+    data.setFormatDates(true);
+    helper.setDataInfo(page, data);
+    return page;
   }
 }
 
@@ -83,37 +83,37 @@ const commentView = {
 
   render(data) {
     function handleDelete(event) {
-      let source
+      let source;
       if (event.target.tagName === 'BUTTON') {
-        source = event.target.closest('LI')
+        source = event.target.closest('LI');
         if (source.dataset.action === 'delete') {
-          const post = source.parentElement.closest('LI')
+          const post = source.parentElement.closest('LI');
           post.remove();
         }
       }
     }
 
-    const page = document.getElementById('comment').cloneNode(true)
-    page.removeAttribute('id')
-    const ul = page.querySelector('ul')
-    const liTemp = ul.firstElementChild
-    helper.setNavButtons(liTemp)
-    liTemp.remove()
+    const page = document.getElementById('comment').cloneNode(true);
+    page.removeAttribute('id');
+    const ul = page.querySelector('ul');
+    const liTemp = ul.firstElementChild;
+    helper.setNavButtons(liTemp);
+    liTemp.remove();
     if (data) {
       data.forEach((el) => {
-        el.setFormatDates(true)
-        const li = liTemp.cloneNode(true)
-        ul.appendChild(li)
-        helper.setDataInfo(ul, el)
+        el.setFormatDates(true);
+        const li = liTemp.cloneNode(true);
+        ul.appendChild(li);
+        helper.setDataInfo(ul, el);
       })
     } else {
-      const li = liTemp.cloneNode(true)
-      li.innerHTML = 'No comments yet'
-      ul.appendChild(li)
+      const li = liTemp.cloneNode(true);
+      li.innerHTML = 'No comments yet';
+      ul.appendChild(li);
     }
-    helper.setNavButtons(liTemp)
-    page.addEventListener('click', handleDelete)
-    return page
+    helper.setNavButtons(liTemp);
+    page.addEventListener('click', handleDelete);
+    return page;
   }
 }
 
@@ -123,30 +123,24 @@ const editView = {
 
     const handleSave = function (event) {
       if (event.target.value === 'save') {
-        event.preventDefault();
-        model.updatePost(form.blogID_input.value, form.id, form.titel_input.value, form.content_input.value);
-
+        title = div.querySelector('#post_title').innerHTML;
+        content = div.querySelector('#post_content').innerHTML;
+        presenter.save(data.blogID, data.id, title, content);
       }
     }
 
     let fillForm = function () {
-      form.blogID_input.value = data.blogID;
-      form.titel_input.value = data.name;
-      form.upload_date_input.value = data.upload_date;
-      form.last_changed_input.value = data.last_changed;
-      form.content_input.value = data.content;
-      form.comment_count_input.value = data.comment_count;
-      form.id = data.id;
+      helper.setDataInfo(div, data);
     }
 
     const edit = (data && data.id) ? true : false;
     let div = document.getElementById('edit').cloneNode(true);
     div.removeAttribute('id');
-    let form = div.querySelector('form');
+    let title, content;
     if (edit) {
       fillForm();
-      let path = '/detail/' + data.blogID
-      let buttons = form.querySelectorAll('button');
+      let path = '/detail/' + data.blogID;
+      let buttons = div.querySelectorAll('button');
       buttons.forEach((el) => {
         el.dataset.path = path;
       });
@@ -172,7 +166,7 @@ const createView = {
     let form = div.querySelector('form');
     if (edit) {
       form.id = bid;
-      let path = '/detail/' + bid
+      let path = '/detail/' + bid;
       let buttons = form.querySelectorAll('button');
       buttons.forEach((el) => {
         el.dataset.path = path;
@@ -185,18 +179,18 @@ const createView = {
 
 const helper = {
   setDataInfo(element, object) {
-    let cont = element.innerHTML
+    let cont = element.innerHTML;
     for (const key in object) {
-      const rexp = new RegExp('%' + key + '%', 'g')
-      cont = cont.replace(rexp, object[key])
+      const rexp = new RegExp('%' + key + '%', 'g');
+      cont = cont.replace(rexp, object[key]);
     }
-    element.innerHTML = cont
+    element.innerHTML = cont;
   },
 
   setNavButtons(temp) {
-    const buttons = document.getElementById('buttons').cloneNode(true)
-    buttons.removeAttribute('id')
-    const footer = temp.querySelector('footer')
-    footer.append(buttons)
+    const buttons = document.getElementById('buttons').cloneNode(true);
+    buttons.removeAttribute('id');
+    const footer = temp.querySelector('footer');
+    footer.append(buttons);
   }
 }

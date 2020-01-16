@@ -123,7 +123,7 @@ and open the template in the editor.
         </ul>
 
         <button type="button" data-action="create" data-path="/create/%blogID%" id="create-button">Add new post</button>
-
+        <!-- 
         <div id="edit">
             <form method="PUT">
                 <ul>
@@ -133,15 +133,15 @@ and open the template in the editor.
                     </li>
                     <li>
                         <label for="titel">Titel</label>
-                        <input type="text" id="titel_input" name="titel">
+                        <input type="text" id="titel_input" name="titel" value=%name%>
                     </li>
                     <li>
                         <label for="upload_date">Uploaded</label>
-                        <input type="text" name="upload_date" id="upload_date_input" disabled>
+                        <input type="text" name="upload_date" id="upload_date_input" value=%upload_date% disabled>
                     </li>
                     <li>
                         <label for="last_changed">Last Changed</label>
-                        <input type="text" name="last_changed" id="last_changed_input" disabled>
+                        <input type="text" name="last_changed" id="last_changed_input" value=%last_changed% disabled>
                     </li>
                     <li>
                         <label for="comment_count"></label>
@@ -149,8 +149,7 @@ and open the template in the editor.
                     </li>
                     <li>
                         <div contenteditable="true">
-                            <label for=" content">Content</label>
-                            <textarea name="content" id="content_input" cols="30" rows="10"></textarea>
+                            %content%
                         </div>
                     </li>
                     <li>
@@ -162,6 +161,30 @@ and open the template in the editor.
                 </ul>
 
             </form>
+        </div> -->
+
+        <div id="edit">
+            <article>
+
+                <head>
+                    <div contenteditable="true">
+                        <p id="post_title">%name%</p>
+                    </div>
+                    %upload_date%
+                    %last_changed%
+                </head>
+                <section>
+                    <div contenteditable="true">
+                        <p id="post_content">%content%</p>
+                    </div>
+                </section>
+                <footer>
+                    <nav>
+                        <button type="button" value="cancel" data-path="/detail">Cancel</button>
+                        <button type="submit" value="save" data-path="/detail">Save</button>
+                    </nav>
+                </footer>
+            </article>
         </div>
 
         <div id="create">
